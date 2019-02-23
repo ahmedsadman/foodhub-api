@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 
 /* ----------------- Middlewares --------------- */
 app.use(bodyParser.json());
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 /* ---------------- ROUTES -------------------- */
 app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
 
 /* --------------- Server --------------------- */
 mongoose
