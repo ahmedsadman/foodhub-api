@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const restaurantRoutes = require('./routes/restaurant');
 
 /* ----------------- Middlewares --------------- */
 app.use(bodyParser.json());
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 /* ---------------- ROUTES -------------------- */
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/restaurant', restaurantRoutes);
 
 /* --------------- Server --------------------- */
 mongoose
