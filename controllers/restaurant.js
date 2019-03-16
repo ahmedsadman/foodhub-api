@@ -4,26 +4,12 @@ const mongoose = require('mongoose');
 
 exports.rateRestaurant = async (req, res, next) => {
     try {
-        const rating = new Rating(req.body);
+        const data = {
+            restaurantId: req.params.id,
+            ...req.body
+        }
+        const rating = new Rating(data);
         const response = await rating.save();
-
-        // const agg = await Rating.aggregate([
-        //     {
-        //         $match: {
-        //             restaurantId: mongoose.Types.ObjectId(
-        //                 '5c715499fe62764770a5c578'
-        //             )
-        //         }
-        //     },
-        //     {
-        //         $group: {
-        //             _id: null,
-        //             count: { $sum: 1 },
-        //             avg: { $avg: '$rating' }
-        //         }
-        //     }
-        // ]);
-        // console.log(agg);
 
         res.status(201).send({
             message: 'Success',

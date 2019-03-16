@@ -81,7 +81,23 @@ const restaurantSchema = new Schema({
         }
     },
     rating: {
-        value: {
+        food: {
+            type: Number,
+            default: 0
+        },
+        environment: {
+            type: Number,
+            default: 0
+        },
+        service: {
+            type: Number,
+            default: 0
+        },
+        price: {
+            type: Number,
+            default: 0
+        },
+        average: {
             type: Number,
             default: 0
         },

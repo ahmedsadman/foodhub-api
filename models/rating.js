@@ -13,12 +13,30 @@ const ratingSchema = new Schema({
         required: true,
         ref: 'Restaurant'
     },
-    rating: {
+    food: {
         type: Number,
         required: true,
         min: 0,
         max: 5
-    }
+    },
+    service: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5
+    },
+    environment: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5
+    },
+    price: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5
+    },
 });
 
 // make combination of userId and restaurantId unique
@@ -42,20 +60,28 @@ ratingSchema.post('save', async function(doc) {
             $group: {
                 _id: null,
                 count: { $sum: 1 },
-                avg: { $avg: '$rating' }
+                foodRating: { $avg: '$food' },
+                serviceRating: { $avg: '$service' },
+                environmentRating: { $avg: '$environment' },
+                priceRating: { $avg: '$price' },
             }
         }
     ]);
     
-    const { avg, count } = agg[0];
-    console.log(avg, count);
+    const { foodRating, serviceRating, environmentRating, priceRating, count } = agg[0];
+    console.log(foodRating, serviceRating, environmentRating, priceRating, count);
 
     const Restaurant = this.model('Restaurant');
 
     const restaurant = await Restaurant.findById(this.restaurantId);
+    const avg = (foodRating + serviceRating + environmentRating + priceRating) / 4;
     
     // update the restaurant data
-    restaurant.rating.value = avg;
+    restaurant.rating.food = foodRating;
+    restaurant.rating.service = serviceRating;
+    restaurant.rating.environment = environmentRating;
+    restaurant.rating.price = priceRating;
+    restaurant.rating.average = avg;
     restaurant.rating.count = count;
 
     await restaurant.save();
