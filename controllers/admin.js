@@ -1,5 +1,5 @@
 const Restaurant = require('../models/restaurant');
-const Rating = require('../models/rating');
+const Review = require('../models/review');
 
 exports.createRestaurant = async (req, res, next) => {
     try {
