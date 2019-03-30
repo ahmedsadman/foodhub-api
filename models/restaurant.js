@@ -7,6 +7,10 @@ const restaurantSchema = new Schema({
         type: String,
         required: true
     },
+    banner_image: {
+        type: String,
+        required: true
+    },
     food_type: {
         type: [String],
         required: true,
@@ -80,7 +84,7 @@ const restaurantSchema = new Schema({
             required: true
         }
     },
-    rating: {
+    review: {
         food: {
             type: Number,
             default: 0
