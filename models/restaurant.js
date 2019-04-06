@@ -73,8 +73,7 @@ const restaurantSchema = new Schema({
         ]
     },
     address: {
-        road_no: Number,
-        house_no: Number,
+        full: String,
         area: {
             type: String,
             required: true
