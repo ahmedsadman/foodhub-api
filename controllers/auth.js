@@ -1,9 +1,29 @@
 const User = require('../models/user');
 
-exports.userLogin = (req, res, next) => {
-    res.send({
-        message: 'Hello World'
-    });
+exports.userLogin = async (req, res, next) => {
+    const { username, password } = req.body;
+    
+    try {
+        const user = await User.findOne({ username, password }, 'username email address');
+        if (user) {
+            res.send({
+                message: 'Success',
+                found: true,
+                data: user
+            });
+        } else {
+            res.send({
+                message: 'Username/password is invalid',
+                found: false
+            });
+        }
+    } catch (e) {
+        console.log('error occured');
+        res.status(400).send({
+            message: 'Request error',
+            error: e
+        });
+    }
 };
 
 exports.userRegister = async (req, res, next) => {
