@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { ObjectId } = Schema.Types;
 mongoose.set('useCreateIndex', true);
 
 const restaurantSchema = new Schema({
+    owner: {
+        type: ObjectId,
+        required: true,
+        ref: 'User'
+    },
     name: {
         type: String,
         required: true
@@ -10,6 +16,11 @@ const restaurantSchema = new Schema({
     banner_image: {
         type: String,
         required: true
+    },
+    restaurant_type: {
+        type: [String],
+        required: true,
+        validate: v => v == null || v.length > 0
     },
     food_type: {
         type: [String],
@@ -121,6 +132,8 @@ const restaurantSchema = new Schema({
             required: true
         }
     }
+}, {
+    timestamps: true
 });
 
 // setup the index for using 'near' query
