@@ -68,3 +68,28 @@ exports.searchRestaurant = async (req, res, next) => {
         });
     }
 };
+
+exports.userRestaurant = async (req, res, next) => {
+    const { id } = req.query;
+
+    try {
+        const response = await Restaurant.find({ owner: id });
+        if (response) {
+            res.send({
+                message: 'Found',
+                data: response
+            });
+        } else {
+            res.send({
+                message: 'No records found', 
+                data: null
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(400).send({
+            message: 'Error occured',
+            error: e
+        });
+    }
+}
