@@ -73,6 +73,8 @@ exports.userRestaurant = async (req, res, next) => {
     const { id } = req.query;
 
     try {
+        if (!id) throw new Error('ID must be valid');
+
         const response = await Restaurant.find({ owner: id });
         if (response) {
             res.send({
@@ -89,7 +91,7 @@ exports.userRestaurant = async (req, res, next) => {
         console.log(e);
         res.status(400).send({
             message: 'Error occured',
-            error: e
+            error: e.message
         });
     }
 }
