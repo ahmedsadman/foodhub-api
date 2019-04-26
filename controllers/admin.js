@@ -41,3 +41,33 @@ exports.deleteRestaurant = async (req, res, next) => {
         });
     }
 };
+
+exports.updateRestaurant = async (req, res, next) => {
+    let bodyData = req.body;
+    const { id } = bodyData;
+    delete bodyData.id;
+
+    try {
+        const response = await Restaurant.findByIdAndUpdate(id, {
+            ...bodyData
+        }, {
+            new: true
+        });
+
+        if (response) {
+            res.send({
+                message: 'Update successful',
+                data: response
+            });
+        } else {
+            res.status(400).send({
+                message: 'Update failed!'
+            });
+        }
+    } catch (e) {
+        res.status(400).send({
+            message: 'Error occured',
+            error: e
+        });
+    }
+}

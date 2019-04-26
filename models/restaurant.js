@@ -120,6 +120,10 @@ const restaurantSchema = new Schema({
             default: 0
         }
     },
+    isFeatured: {
+        type: Boolean,
+        default: false
+    },
     location: {
         // geo-json
         type: {
