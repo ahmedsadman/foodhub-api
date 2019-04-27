@@ -43,13 +43,11 @@ exports.deleteRestaurant = async (req, res, next) => {
 };
 
 exports.updateRestaurant = async (req, res, next) => {
-    let bodyData = req.body;
-    const { id } = bodyData;
-    delete bodyData.id;
+    const { id } = req.params;
 
     try {
         const response = await Restaurant.findByIdAndUpdate(id, {
-            ...bodyData
+            ...req.body
         }, {
             new: true
         });

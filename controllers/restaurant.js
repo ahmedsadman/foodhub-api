@@ -95,3 +95,24 @@ exports.userRestaurant = async (req, res, next) => {
         });
     }
 }
+
+exports.getDetails = async (req, res, next) => {
+    const { id } = req.query;
+    console.log(id);
+
+    try {
+        const response = await Restaurant.findById(id);
+        if (response) {
+            res.send({
+                message: 'Success',
+                data: response
+            });
+        } else {
+            res.status(400).send({ message: 'Not found' });
+        }
+    } catch (e) {
+        res.status(400).send({
+            error: e.message
+        })
+    }
+};
