@@ -24,6 +24,36 @@ exports.reviewRestaurant = async (req, res, next) => {
     }
 };
 
+exports.getReviews = async (req, res, next) => {
+    try {
+        const restaurantId = req.params.id;
+        const userId = req.query.id;
+
+        let query = {};
+        query.restaurantId = restaurantId;
+        if (userId) query.userId = userId;
+
+        const response = await Review.find(query).populate('userId', 'username email').exec();
+        if (response) {
+            res.send({
+                found: response.length !== 0,
+                data: response
+            });
+        } else {
+            res.status(400).send({
+                error: 'Error occured'
+            })
+        }
+        
+    } catch (e) {
+        console.log(e);
+        res.status(400).send({
+            message: 'Error occured',
+            error: e.message
+        });
+    }
+}
+
 const buildSearchQuery = (query) => {
     let { area, food, min_rating, features } = query;
     const queryObj = {};
