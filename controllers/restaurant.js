@@ -84,7 +84,7 @@ exports.searchRestaurant = async (req, res, next) => {
     try {
         const restaurants = await Restaurant.find(
             query,
-            'name address review.average banner_image'
+            'name address review.average review.count banner_image'
         );
         res.send({
             message: 'Success',
