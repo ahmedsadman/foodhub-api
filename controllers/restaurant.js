@@ -76,16 +76,28 @@ const buildSearchQuery = (query) => {
     return queryObj;
 }
 
+const buildSortQuery = (query) => {
+    let sortCondition = {};
+    const { sort } = query;
+    if (sort === 'popularity') sortCondition['review.count'] = -1;
+    else if (sort === 'rating') sortCondition['review.average'] = -1;
+    else if (sort === 'recent') sortCondition._id = -1;
+    
+    return sortCondition;
+}
+
 exports.searchRestaurant = async (req, res, next) => {
     console.log('--------------');
     const query = buildSearchQuery(req.query);
-    console.log(query);
+    // console.log(query);
+    const sortCondition = buildSortQuery(req.query);
+    console.log(sortCondition);
 
     try {
         const restaurants = await Restaurant.find(
             query,
             'name address review.average review.count banner_image'
-        );
+        ).sort(sortCondition);
         res.send({
             message: 'Success',
             data: restaurants
