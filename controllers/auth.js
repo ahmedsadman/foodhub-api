@@ -4,7 +4,7 @@ exports.userLogin = async (req, res, next) => {
     const { username, password } = req.body;
     
     try {
-        const user = await User.findOne({ username, password }, 'username email address');
+        const user = await User.findOne({ username, password }, 'username email address privileged');
         if (user) {
             res.send({
                 message: 'Success',

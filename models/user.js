@@ -14,6 +14,14 @@ const userSchema = new Schema({
         type: String, 
         required: true 
     },
+    privileged: {
+        type: Boolean,
+        default: false
+    },
+    admin: {
+        type: Boolean,
+        required: false
+    },
     address: {
         type: [
             {
