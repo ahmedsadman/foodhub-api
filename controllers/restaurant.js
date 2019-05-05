@@ -1,5 +1,6 @@
 const Restaurant = require('../models/restaurant');
 const Review = require('../models/review');
+const Order = require('../models/order');
 const mongoose = require('mongoose');
 
 exports.reviewRestaurant = async (req, res, next) => {
@@ -33,7 +34,9 @@ exports.getReviews = async (req, res, next) => {
         query.restaurantId = restaurantId;
         if (userId) query.userId = userId;
 
-        const response = await Review.find(query).populate('userId', 'username email').exec();
+        const response = await Review.find(query)
+            .populate('userId', 'username email')
+            .exec();
         if (response) {
             res.send({
                 found: response.length !== 0,
@@ -42,9 +45,8 @@ exports.getReviews = async (req, res, next) => {
         } else {
             res.status(400).send({
                 error: 'Error occured'
-            })
+            });
         }
-        
     } catch (e) {
         console.log(e);
         res.status(400).send({
@@ -52,9 +54,9 @@ exports.getReviews = async (req, res, next) => {
             error: e.message
         });
     }
-}
+};
 
-const buildSearchQuery = (query) => {
+const buildSearchQuery = query => {
     let { area, food, min_rating, features } = query;
     const queryObj = {};
 
@@ -74,17 +76,17 @@ const buildSearchQuery = (query) => {
     }
 
     return queryObj;
-}
+};
 
-const buildSortQuery = (query) => {
+const buildSortQuery = query => {
     let sortCondition = {};
     const { sort } = query;
     if (sort === 'popularity') sortCondition['review.count'] = -1;
     else if (sort === 'rating') sortCondition['review.average'] = -1;
     else if (sort === 'recent') sortCondition._id = -1;
-    
+
     return sortCondition;
-}
+};
 
 exports.searchRestaurant = async (req, res, next) => {
     console.log('--------------');
@@ -125,7 +127,7 @@ exports.userRestaurant = async (req, res, next) => {
             });
         } else {
             res.send({
-                message: 'No records found', 
+                message: 'No records found',
                 data: null
             });
         }
@@ -136,7 +138,7 @@ exports.userRestaurant = async (req, res, next) => {
             error: e.message
         });
     }
-}
+};
 
 exports.getDetails = async (req, res, next) => {
     const { id } = req.query;
@@ -155,6 +157,48 @@ exports.getDetails = async (req, res, next) => {
     } catch (e) {
         res.status(400).send({
             error: e.message
+        });
+    }
+};
+
+exports.placeOrder = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const data = {
+            restaurant: id,
+            ...req.body
+        };
+        const order = new Order(data);
+        const response = await order.save();
+
+        res.status(201).send({
+            message: 'Order created successfully',
+            data: response
+        });
+    } catch (e) {
+        res.status(400).send({
+            message: 'Error occured',
+            error: e.message
+        });
+    }
+};
+
+exports.getOrders = async (req, res, next) => {
+    try {
+        const { userId, restaurantId } = req.query;
+        let query = {};
+        if (userId) query.user = userId;
+        if (restaurantId) query.restaurant = restaurantId;
+
+        const response = await Order.find(query).populate('restaurant', 'name').exec();
+        res.send({
+            message: 'Success',
+            data: response
         })
+    } catch (e) {
+        res.status(400).send({
+            message: 'Error occured',
+            error: e.message
+        });
     }
 };
