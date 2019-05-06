@@ -190,7 +190,7 @@ exports.getOrders = async (req, res, next) => {
         if (userId) query.user = userId;
         if (restaurantId) query.restaurant = restaurantId;
 
-        const response = await Order.find(query).populate('restaurant', 'name').exec();
+        const response = await Order.find(query).populate('restaurant', 'name').populate('user', 'username email').exec();
         res.send({
             message: 'Success',
             data: response

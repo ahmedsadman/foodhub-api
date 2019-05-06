@@ -40,6 +40,10 @@ const orderSchema = new Schema({
     total_amount: {
         type: Number,
         required: true
+    },
+    delivery_address: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
