@@ -57,7 +57,7 @@ exports.getReviews = async (req, res, next) => {
 };
 
 const buildSearchQuery = query => {
-    let { area, food, min_rating, features } = query;
+    let { area, food, min_rating, features, type } = query;
     const queryObj = {};
 
     // handle the simple queries
@@ -73,6 +73,10 @@ const buildSearchQuery = query => {
         for (const val of features) {
             queryObj[`features.${val}`] = true;
         }
+    }
+
+    if (type) {
+        queryObj['restaurant_type'] = { $all: type };
     }
 
     return queryObj;
