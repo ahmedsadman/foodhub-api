@@ -44,7 +44,8 @@ exports.userRegister = async (req, res, next) => {
             email: response.email
         });
     } catch (e) {
-        res.status(500).send({
+        console.log(e.message);
+        res.status(400).send({
             message: 'Error occured',
             error: e
         });
