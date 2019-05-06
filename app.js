@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -8,9 +9,11 @@ const port = process.env.PORT || 3000;
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const restaurantRoutes = require('./routes/restaurant');
+const blogRoutes = require('./routes/blog');
 
 /* ----------------- Middlewares --------------- */
 app.use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 /* ----------------- Enable CORS ---------------- */
 app.use((req, res, next) => {
@@ -30,6 +33,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/restaurant', restaurantRoutes);
+app.use('/blog', blogRoutes);
 
 /* --------------- Server --------------------- */
 mongoose
