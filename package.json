@@ -1,25 +1,29 @@
 {
-  "name": "foodhub-api",
-  "version": "1.0.0",
-  "description": "FoodHub is made for foodies, to introduce them with quality foods and restaurants around them. It is also a social place for food lovers.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "foodhub",
-    "portal",
-    "food"
-  ],
-  "author": "Ahmed Sadman Muhib (Samyo)",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "mongoose": "^5.4.13",
-    "multer": "^1.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^1.18.10"
-  }
+	"name": "foodhub-api",
+	"version": "1.0.0",
+	"description": "FoodHub is made for foodies, to introduce them with quality foods and restaurants around them. It is also a social place for food lovers.",
+	"main": "index.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": "10.13.0"
+	},
+	"keywords": [
+		"foodhub",
+		"portal",
+		"food"
+	],
+	"author": "Ahmed Sadman Muhib (Samyo)",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"express": "^4.16.4",
+		"mongoose": "^5.4.13",
+		"multer": "^1.4.1"
+	},
+	"devDependencies": {
+		"nodemon": "^1.18.10"
+	}
 }
