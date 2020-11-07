@@ -37,11 +37,8 @@ app.use('/blog', blogRoutes);
 
 /* --------------- Server --------------------- */
 mongoose
-	.connect(
-		'mongodb+srv://admin:admin@samyo001-ksrpc.mongodb.net/foodhub?retryWrites=true',
-		{ useNewUrlParser: true }
-	)
+	.connect(process.env.MONGODB_DATABASE_URI, { useNewUrlParser: true })
 	.then(() => {
 		app.listen(port, () => console.log(`Server started at port ${port}`));
 	})
-	.catch(err => console.log(`ERROR: ${err}`));
+	.catch((err) => console.log(`ERROR: ${err}`));
