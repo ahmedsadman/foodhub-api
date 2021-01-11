@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    api:
+        image: foodhub-api
+        build: .
+        restart: unless-stopped
+        env_file: .env
+        ports:
+            - '3001:3001'
+        volumes:
+            - .:/usr/src/app
+            - node_modules:/usr/src/app/node_modules
+        networks:
+            - foodhub
+        depends_on:
+            - db # in .env, app should listen on host "db"
+    db:
+        image: mongo:4.1.8-xenial
+        restart: unless-stopped
+        env_file: .env
+        volumes:
+            - dbdata:/data/db
+        networks:
+            - foodhub
+networks:
+    foodhub:
+volumes:
+    dbdata:
+    node_modules:
